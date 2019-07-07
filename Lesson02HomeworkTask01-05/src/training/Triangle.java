@@ -6,7 +6,7 @@ package training;
  * @version 0.1 07.07.2019
  * @author Oleg
  */
-public class Triangle extends StraightLinedShape {
+public class Triangle extends Shape {
 	private Point a;
 	private Point b;
 	private Point c;
@@ -112,9 +112,8 @@ public class Triangle extends StraightLinedShape {
 	 */
 	@Override
 	public double getPerimeter() {				
-		return StraightLinedShape.getLineSegmentLength(a, b) 
-				+ StraightLinedShape.getLineSegmentLength(b, c) 
-				+ StraightLinedShape.getLineSegmentLength(a, c);
+		return Point.getDistance(a, b) + Point.getDistance(b, c) 
+				+ Point.getDistance(a, c);
 	}
 	
 	/**

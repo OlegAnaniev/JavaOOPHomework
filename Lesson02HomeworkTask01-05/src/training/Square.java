@@ -6,7 +6,7 @@ package training;
  * @version 0.1 07.07.2019
  * @author Oleg
  */
-public class Square extends StraightLinedShape {	
+public class Square extends Shape {	
 	private Point a;
 	private Point b;
 	private Point c;
@@ -137,7 +137,7 @@ public class Square extends StraightLinedShape {
 	 */
 	@Override
 	public double getPerimeter() {		
-		return StraightLinedShape.getLineSegmentLength(a, b) * 4;
+		return Point.getDistance(a, b) * 4;
 	}
 
 	/**
@@ -145,7 +145,7 @@ public class Square extends StraightLinedShape {
 	 */
 	@Override
 	public double getArea() {
-		return Math.pow(StraightLinedShape.getLineSegmentLength(a, b), 2);
+		return Math.pow(Point.getDistance(a, b), 2);
 	}
 
 	/**

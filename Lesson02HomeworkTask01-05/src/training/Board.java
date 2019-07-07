@@ -8,7 +8,7 @@ package training;
  *
  */
 public class Board {
-	private final int boardSize = 4;
+	private final int BOARD_SIZE = 4;
 	private final String OUTPUT_MESSAGE_HEAD = "Board:";
 	private final String SHAPE_OUTPUT_MESSAGE = "position %d: %s";
 	private Shape[] shapes;
@@ -18,7 +18,7 @@ public class Board {
 	 */
 	public Board() {
 		super();
-		shapes = new Shape[boardSize];
+		shapes = new Shape[BOARD_SIZE];
 	}
 
 	/**
