@@ -10,9 +10,11 @@ public class Main {
 		Board board = new Board();
 		Shape[] shapes;
 		
-		board.setShape(circle, 0);
-		board.setShape(triangle, 1);
-		board.setShape(square, 2);
+		setShape(board, circle, -1);
+		setShape(board, circle, 4);
+		setShape(board, circle, 0);
+		setShape(board, triangle, 1);
+		setShape(board, square, 2);
 		
 		System.out.println(board);
 		System.out.println("Total area: " + board.getTotalArea());
@@ -25,6 +27,14 @@ public class Main {
 				System.out.println("Perimeter: " + shapes[i].getPerimeter());
 				System.out.println("Area: " + shapes[i].getArea());
 			}
+		}
+	}
+	
+	private static void setShape(Board board, Shape shape, int position) {
+		if (board.setShape(shape, position)) {
+			System.out.println("Shape set");
+		} else {
+			System.out.println("Invalid position");
 		}
 	}
 }

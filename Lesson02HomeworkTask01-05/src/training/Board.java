@@ -65,8 +65,14 @@ public class Board {
 	 * @param shape <code>Shape</code>
 	 * @param position <code>int</code>
 	 */
-	public void setShape(Shape shape, int position) {
+	public boolean setShape(Shape shape, int position) {
+		if (position < 0 || position >= shapes.length) {
+			return false;
+		}
+		
 		shapes[position] = shape;
+		
+		return true;
 	}
 
 	/**
