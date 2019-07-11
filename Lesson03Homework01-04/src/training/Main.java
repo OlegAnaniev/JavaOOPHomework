@@ -1,11 +1,12 @@
 package training;
 
+import java.util.Arrays;
 import java.util.Calendar;
 
 import training.Faculty.FacultyName;
 import training.Human.Gender;
 import training.Student.TeachingMethod;
-import training.exceptions.InvalidStudentPositionException;
+import training.exceptions.TooManyStudentsException;
 
 public class Main {
 
@@ -33,12 +34,21 @@ public class Main {
 		
 		Group group = new Group("Lbxm-511");
 		try {
-			group.setStudent(student, 0);
-			group.setStudent(student2, 5);
-			group.setStudent(student3, 8);
-		} catch (InvalidStudentPositionException e) { 
+			group.setStudent(student);
+			group.setStudent(student2);
+			group.setStudent(student3);			
+		} catch (TooManyStudentsException e) { 
 			e.printStackTrace();
 		}
+		
+		System.out.println(Arrays.toString(group.getStudents()));
 		System.out.println(group);		
+		
+		Student found = group.getStudent("James");
+		System.out.println(found);
+		
+		System.out.println(group.removeStudent(found));
+		System.out.println(Arrays.toString(group.getStudents()));
+		
 	}
 }

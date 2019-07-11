@@ -31,7 +31,7 @@ public class Human {
 	}
 
 	/**
-	 * Auxiliary private constructor call by public constructors 
+	 * Auxiliary private constructor called by public constructors 
 	 * 
 	 * @param firstName <code>String</code>
 	 * @param lastName <code>String</code>
@@ -150,7 +150,7 @@ public class Human {
 	 * @param birthdate <code>Calendar</code>
 	 */
 	public void setBirthdate(Calendar birthdate) {
-		this.birthdate = birthdate;
+		this.birthdate = (Calendar) birthdate.clone();
 	}
 
 	/**

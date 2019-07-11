@@ -2,7 +2,7 @@ package training;
 
 import java.util.Arrays;
 
-import training.exceptions.InvalidStudentPositionException;
+import training.exceptions.TooManyStudentsException;
 
 /**
  * Class representing a group
@@ -14,6 +14,7 @@ public class Group {
 	private final static int GROUP_SIZE = 10;
 	private String groupName;
 	private Student[] students;
+	private int counter;
 	
 	/**
 	 * Creates default group
@@ -69,40 +70,40 @@ public class Group {
 	public void setStudents(Student[] students) {
 		this.students = Arrays.copyOf(students, students.length);
 	}	
-	
+		
 	/**
-	 * Check if given position in array of students is valid
-	 * 
-	 * @param position <code>int</code>
-	 * @throws InvalidStudentPositionException
-	 */
-	public void checkPosition(int position) throws InvalidStudentPositionException {
-		if (position < 0 || position > students.length) {
-			throw new InvalidStudentPositionException();
-		}
-	}
-	
-	/**
-	 * Sets a student to a given position
+	 * Sets a student to the group
 	 * 
 	 * @param student <code>Student</code>
-	 * @param position <code>int</code>
-	 * @throws InvalidStudentPositionException 
+	 * @throws TooManyStudentsException 
 	 */
-	public void setStudent(Student student, int position) throws InvalidStudentPositionException {		
-		checkPosition(position);
-		students[position] = student;
+	public void setStudent(Student student) throws TooManyStudentsException {		
+		if (counter == GROUP_SIZE) {
+			throw new TooManyStudentsException();
+		}
+		students[counter] = student;
+		counter++;
 	}
 	
 	/**
-	 * Removes a student from a given position
+	 * Removes a student from the group
 	 * 
-	 * @param position <code>int</code>
-	 * @throws InvalidStudentPositionException
+	 * @param student <code>Student</code>
+	 * @return <code>boolean</code> true if the student was found and removed 
+	 * and false otherwise
 	 */
-	public void removeStudent(int position) throws InvalidStudentPositionException {
-		checkPosition(position);		
-		students[position] = null;
+	public boolean removeStudent(Student student) {
+		for (int i = 0; i < counter; i++) {
+			if (student == students[i]) {
+				Student[] tempStudents = new Student[students.length];
+				System.arraycopy(students, 0, tempStudents, 0, i);
+				System.arraycopy(students, i + 1, tempStudents, i, counter - i);
+				students = tempStudents;
+				counter--;
+				return true;
+			}
+		}	
+		return false;
 	}
 	
 	/**
@@ -112,12 +113,12 @@ public class Group {
 	 * @return <code>Student</code>
 	 */
 	public Student getStudent(String lastName) {
-		for (Student student : students) {
-			if (student.getLastName().equals(lastName)) {
-				return student;
-			}			
+		for (int i = 0; i < counter; i++) {
+			if (students[i].getLastName().equals(lastName)) {
+				return students[i];
+			}
 		}
-		
+
 		return null;
 	}
 
@@ -126,31 +127,13 @@ public class Group {
 	 */
 	@Override
 	public String toString() {
-		StringBuilder text = new StringBuilder("Group " + groupName 
-				+ ":" + System.lineSeparator());
-		Student[] array;
-		int counter = 0;
-		
-		for (Student student : students) {
-			if (student != null) {
-				counter++;
-			}
-		}		
-		
-		array = new Student[counter];
-		counter = 0;
-		for (Student student : students) {
-			if (student != null) {
-				array[counter] = student;
-				counter++;
-			}
-		}	
-		
-		quickSort(array, 0, array.length - 1);
-		
+		StringBuilder text = new StringBuilder("Group " + groupName + ":");
+		Student[] array = Arrays.copyOf(students, counter);
+				
+		quickSort(array, 0, array.length - 1);		
 		
 		for (Student student : array) {
-			text.append(student + System.lineSeparator());
+			text.append(System.lineSeparator() + student);
 		}
 				
 		return text.toString();

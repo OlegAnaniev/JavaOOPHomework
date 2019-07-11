@@ -6,14 +6,14 @@ package training.exceptions;
  * @version 0.1 10.07.2019
  * @author Oleg
  */
-public class InvalidStudentPositionException extends Exception {
+public class TooManyStudentsException extends Exception {
 
-	public static final String MESSAGE = "Invalid student position";
+	public static final String MESSAGE = "Too many students";
 	
 	/**
 	 * Creates exception with default message
 	 */
-	public InvalidStudentPositionException() {
+	public TooManyStudentsException() {
 		super(MESSAGE);
 	}
 
@@ -22,7 +22,7 @@ public class InvalidStudentPositionException extends Exception {
 	 * 
 	 * @param message <code>String message</code>
 	 */
-	public InvalidStudentPositionException(String message) {
+	public TooManyStudentsException(String message) {
 		super(message);
 	}
 }
