@@ -9,11 +9,12 @@ import java.util.Calendar;
  * @version 0.1 10.07.2019
  * @author Oleg
  */
-public class Human {
+public class Human implements Cloneable {
 	public enum Gender {
 		MALE, FEMALE, UNKNOWN
 	}
-	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("G dd/MM/y");
+	private static final SimpleDateFormat dateFormat = 
+			new SimpleDateFormat("G dd/MM/y");
 	private String firstName;
 	private String lastName;
 	private Gender gender;
@@ -161,5 +162,62 @@ public class Human {
 		return "Human [firstName=" + firstName + ", lastName=" + lastName + 
 				", " + "gender=" + gender + ", birthdate=" + getTextBirthdate() 
 				+ "]";
+	}
+
+	/**
+	 * Gets hash code of the human
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((birthdate == null) ? 0 
+				: birthdate.hashCode());
+		result = prime * result + ((firstName == null) ? 0 
+				: firstName.hashCode());
+		result = prime * result + ((gender == null) ? 0 : gender.hashCode());
+		result = prime * result + ((lastName == null) ? 0 
+				: lastName.hashCode());
+		return result;
+	}
+
+	/**
+	 * Compares two humans
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Human other = (Human) obj;
+		if (birthdate == null) {
+			if (other.birthdate != null)
+				return false;
+		} else if (!birthdate.equals(other.birthdate))
+			return false;
+		if (firstName == null) {
+			if (other.firstName != null)
+				return false;
+		} else if (!firstName.equals(other.firstName))
+			return false;
+		if (gender != other.gender)
+			return false;
+		if (lastName == null) {
+			if (other.lastName != null)
+				return false;
+		} else if (!lastName.equals(other.lastName))
+			return false;
+		return true;
+	}
+
+	/**
+	 * Clones the human
+	 */
+	@Override
+	protected Object clone() throws CloneNotSupportedException {		
+		return new Human(firstName, lastName, gender, birthdate);
 	}	
 }

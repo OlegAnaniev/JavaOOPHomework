@@ -1,7 +1,13 @@
 package training;
 
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Comparator;
+import java.util.Scanner;
 
+import training.Faculty.FacultyName;
+import training.Human.Gender;
+import training.Student.TeachingMethod;
 import training.exceptions.TooManyStudentsException;
 
 /**
@@ -10,11 +16,12 @@ import training.exceptions.TooManyStudentsException;
  * @version 0.1 10.07.2019
  * @author Oleg
  */
-public class Group {
-	private final static int GROUP_SIZE = 10;
+public class Group implements MilitaryManager {
+	private final static int GROUP_SIZE = 10;	
 	private String groupName;
 	private Student[] students;
 	private int counter;
+	private Comparator comparator;
 	
 	/**
 	 * Creates default group
@@ -51,6 +58,10 @@ public class Group {
 	 */
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
+		
+		for (int i = 0; i < counter; i++) {
+			students[i].setGroupName(this.groupName);
+		}
 	}
 
 	/**
@@ -78,11 +89,21 @@ public class Group {
 	 * @throws TooManyStudentsException 
 	 */
 	public void setStudent(Student student) throws TooManyStudentsException {		
+		if (student == null) {
+			throw new IllegalArgumentException("Student cannot be null");
+		}
+		
 		if (counter == GROUP_SIZE) {
 			throw new TooManyStudentsException();
 		}
-		students[counter] = student;
-		counter++;
+		
+		try {
+			students[counter] = (Student) student.clone();
+			students[counter].setGroupName(groupName);
+			counter++;
+		} catch (CloneNotSupportedException e) {			
+			e.printStackTrace();
+		}		
 	}
 	
 	/**
@@ -94,10 +115,11 @@ public class Group {
 	 */
 	public boolean removeStudent(Student student) {
 		for (int i = 0; i < counter; i++) {
-			if (student == students[i]) {
+			if (student.equals(students[i])) {
 				Student[] tempStudents = new Student[students.length];
 				System.arraycopy(students, 0, tempStudents, 0, i);
-				System.arraycopy(students, i + 1, tempStudents, i, counter - i);
+				System.arraycopy(students, i + 1, tempStudents, i, 
+						counter - i);
 				students = tempStudents;
 				counter--;
 				return true;
@@ -115,11 +137,33 @@ public class Group {
 	public Student getStudent(String lastName) {
 		for (int i = 0; i < counter; i++) {
 			if (students[i].getLastName().equals(lastName)) {
-				return students[i];
+				try {
+					return (Student) students[i].clone();
+				} catch (CloneNotSupportedException e) {					
+					e.printStackTrace();
+				}
 			}
 		}
 
 		return null;
+	}	
+	
+	/**
+	 * Gets currently set comparator
+	 * 
+	 * @return <code>Comparator</code>
+	 */
+	public Comparator getComparator() {
+		return comparator;
+	}
+
+	/**
+	 * Sets comparator
+	 * 
+	 * @param comparator <code>Comparator</code>
+	 */
+	public void setComparator(Comparator comparator) {
+		this.comparator = comparator;
 	}
 
 	/**
@@ -130,7 +174,11 @@ public class Group {
 		StringBuilder text = new StringBuilder("Group " + groupName + ":");
 		Student[] array = Arrays.copyOf(students, counter);
 				
-		quickSort(array, 0, array.length - 1);		
+		if (comparator != null) {
+			Arrays.sort(array, 0, counter, comparator);
+		} else {
+			quickSort(array, 0, array.length - 1);		
+		}		
 		
 		for (Student student : array) {
 			text.append(System.lineSeparator() + student);
@@ -177,4 +225,79 @@ public class Group {
 			quickSort(array, i, end);
 		}		
 	}
+
+
+	@Override
+	public Student[] getLiableStudents() {
+		int liableCount = countLiable();
+		
+		if (liableCount == 0) {
+			return null;
+		}
+		
+		Student[] liable = new Student[liableCount];
+		int position = 0;
+		for (int i = 0; i < counter; i++) {
+			if (students[i].getGender() == Gender.MALE 
+					&& isAdult(students[i])) {
+				try {
+					liable[position] = (Student) students[i].clone();
+					position++;
+				} catch (CloneNotSupportedException e) {
+					e.printStackTrace();
+				}
+			}
+		}		
+		
+		return liable;
+	}
+	
+	/**
+	 * Counter the number of military liable students
+	 * 
+	 * @return <code>int</code>
+	 */
+	private int countLiable() {
+		int count = 0;
+		
+		for (int i = 0; i < counter; i++) {
+			if (students[i].getGender() == Gender.MALE 
+					&& isAdult(students[i])) {
+				count++;
+			}
+		}
+		
+		return count;
+	}
+	
+	/**
+	 * Checks if the student is adult
+	 * 
+	 * @param student <code>Student</code>
+	 * @return <code>boolean</code> true if the student is adult and false 
+	 * otherwise
+	 */
+	private boolean isAdult(Student student) {
+		Calendar now = Calendar.getInstance();
+		Calendar birthdate = student.getBirthdate();
+		
+		if (now.get(Calendar.YEAR) - birthdate.get(Calendar.YEAR) > 18) {
+			return true;
+		}
+		
+		if (now.get(Calendar.YEAR) - birthdate.get(Calendar.YEAR) == 18) {
+			if (now.get(Calendar.MONTH) > birthdate.get(Calendar.MONTH)) {
+				return true;
+			}
+			
+			if (now.get(Calendar.MONTH) == birthdate.get(Calendar.MONTH)) {
+				if (now.get(Calendar.DAY_OF_MONTH) 
+						>= birthdate.get(Calendar.DAY_OF_MONTH)) {
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}	
 }
