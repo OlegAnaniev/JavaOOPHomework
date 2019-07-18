@@ -3,11 +3,7 @@ package training;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Comparator;
-import java.util.Scanner;
-
-import training.Faculty.FacultyName;
 import training.Human.Gender;
-import training.Student.TeachingMethod;
 import training.exceptions.TooManyStudentsException;
 
 /**
@@ -18,6 +14,7 @@ import training.exceptions.TooManyStudentsException;
  */
 public class Group implements MilitaryManager {
 	private final static int GROUP_SIZE = 10;	
+	private int id;
 	private String groupName;
 	private Student[] students;
 	private int counter;
@@ -40,6 +37,24 @@ public class Group implements MilitaryManager {
 	public Group(String groupName) {
 		this();
 		this.groupName = groupName;
+	}
+	
+	/**
+	 * Gets group storage id
+	 * 
+	 * @return <code>int</code>
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * Sets group storage id
+	 * 
+	 * @param id <code>int</code>
+	 */
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	/**
@@ -230,23 +245,21 @@ public class Group implements MilitaryManager {
 	@Override
 	public Student[] getLiableStudents() {
 		int liableCount = countLiable();
-		
-		if (liableCount == 0) {
-			return null;
-		}
-		
 		Student[] liable = new Student[liableCount];
-		int position = 0;
-		for (int i = 0; i < counter; i++) {
-			if (students[i].getGender() == Gender.MALE 
-					&& isAdult(students[i])) {
-				try {
-					liable[position] = (Student) students[i].clone();
-					position++;
-				} catch (CloneNotSupportedException e) {
-					e.printStackTrace();
+		
+		if (liableCount > 0) {
+			int position = 0;
+			for (int i = 0; i < counter; i++) {
+				if (students[i].getGender() == Gender.MALE 
+						&& isAdult(students[i])) {
+					try {
+						liable[position] = (Student) students[i].clone();
+						position++;
+					} catch (CloneNotSupportedException e) {
+						e.printStackTrace();
+					}
 				}
-			}
+			}	
 		}		
 		
 		return liable;

@@ -15,6 +15,7 @@ public class Human implements Cloneable {
 	}
 	private static final SimpleDateFormat dateFormat = 
 			new SimpleDateFormat("G dd/MM/y");
+	private int id;
 	private String firstName;
 	private String lastName;
 	private Gender gender;
@@ -76,6 +77,24 @@ public class Human implements Cloneable {
 		birthdate.set(Calendar.DATE, day);
 		birthdate.set(Calendar.MONTH, month - 1);
 		birthdate.set(Calendar.YEAR, year);
+	}
+		
+	/**
+	 * Gets human storage id
+	 * 
+	 * @return <code>int</code>
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * Sets human storage id
+	 * 
+	 * @param id <code>int</code>
+	 */
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	/**

@@ -16,7 +16,7 @@ public class Student extends Human implements Cloneable {
 		NONE
 	}
 	
-	private final static String NONE = "none";	
+	private final static String NONE = "none";
 	private Faculty.FacultyName facultyName;
 	private TeachingMethod teachingMethod;
 	private String groupName = NONE;

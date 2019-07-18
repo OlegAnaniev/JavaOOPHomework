@@ -3,10 +3,12 @@ package training;
 import java.util.Arrays;
 import java.util.Calendar;
 
+import training.presistence.DAOFactory.UniversityDAO;
 import training.Faculty.FacultyName;
 import training.Human.Gender;
 import training.Student.TeachingMethod;
 import training.exceptions.TooManyStudentsException;
+import training.presistence.DAOFactory;
 
 public class Main {
 
@@ -130,5 +132,10 @@ public class Main {
 		System.out.println("Military liable:");
 		Student[] liable = group.getLiableStudents();
 		System.out.println(Arrays.toString(liable));
+		
+		UniversityDAO storage = DAOFactory.getFactory(DAOFactory.FILESYSTEM);		
+		Group loadedGroup = storage.getGroup(1);		
+		System.out.println(loadedGroup);
+		storage.insertGroup(loadedGroup);		
 	}
 }
