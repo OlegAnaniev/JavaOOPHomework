@@ -6,7 +6,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Multithreaded file seeker
+ * Multithreaded  file seeker
  * 
  * @version 0.1 29.07.2019
  * @author Oleg
