@@ -21,7 +21,6 @@ public class FolderCopier {
 	private File target;
 	private ExecutorService executor;
 	private ArrayList<Future<CopyResult>> results;
-//	private boolean isDone;
 	
 	/**
 	 * Default constructor
