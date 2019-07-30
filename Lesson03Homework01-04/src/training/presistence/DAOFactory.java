@@ -125,12 +125,12 @@ public class DAOFactory {
 	}
 	
 	private static class FilesystemFactory implements UniversityDAO {		
-		private static final String BASE_STORGAE_PATH = "datastorage";
+		private static final String BASE_STORAGE_PATH = "datastorage";
 		private static final String GROUP_STORAGE_PATH = "groups";
 		private static final String STUDENT_STORAGE_PATH = "students";
 		private static final String INVALID_PATHS_MESSAGE = "Given paths do "
 				+ "not exist or invalid";
-		private static final String INVALID_DATA_FOMAT_MESSAGE = "Storage "
+		private static final String INVALID_DATA_FORMAT_MESSAGE = "Storage "
 				+ "conatins data in invalid format";
 		private static final String GROUP_FILE_EXTENSION = ".group";
 		private static final String STUDENT_FILE_EXTENSION = ".student";
@@ -148,10 +148,10 @@ public class DAOFactory {
 		 * Validates paths. Throws IllegalArgumentException if paths are invalid
 		 */
 		private void validatePaths() {
-			File storage = new File(BASE_STORGAE_PATH);
-			File groups = new File(BASE_STORGAE_PATH + File.separator
+			File storage = new File(BASE_STORAGE_PATH);
+			File groups = new File(BASE_STORAGE_PATH + File.separator
 					+ GROUP_STORAGE_PATH);
-			File students = new File(BASE_STORGAE_PATH + File.separator
+			File students = new File(BASE_STORAGE_PATH + File.separator
 					+ STUDENT_STORAGE_PATH);
 			
 			if (!storage.exists() || !storage.isDirectory()
@@ -167,7 +167,7 @@ public class DAOFactory {
 		 * @return <code>int</code>
 		 */
 		private int getNextGroupId() {
-			File groups = new File(BASE_STORGAE_PATH + File.separator
+			File groups = new File(BASE_STORAGE_PATH + File.separator
 					+ GROUP_STORAGE_PATH);
 			return getNextId(groups);
 		}
@@ -178,7 +178,7 @@ public class DAOFactory {
 		 * @return <code>int</code>
 		 */
 		private int getNextStudentId() {
-			File students = new File(BASE_STORGAE_PATH + File.separator
+			File students = new File(BASE_STORAGE_PATH + File.separator
 					+ STUDENT_STORAGE_PATH);
 			return getNextId(students);
 		}
@@ -206,7 +206,7 @@ public class DAOFactory {
 				lastId = Integer.parseInt(files[files.length - 1]
 						.substring(0, underscorePosition));
 			} catch (NumberFormatException e) {
-				throw new IllegalArgumentException(INVALID_DATA_FOMAT_MESSAGE);
+				throw new IllegalArgumentException(INVALID_DATA_FORMAT_MESSAGE);
 			}			
 			
 			return lastId + 1;
@@ -233,7 +233,7 @@ public class DAOFactory {
 							.substring(0, underscorePosition));
 				} catch (NumberFormatException e) {
 					throw new IllegalArgumentException(
-							INVALID_DATA_FOMAT_MESSAGE);
+							INVALID_DATA_FORMAT_MESSAGE);
 				}				
 				
 				if (currentId == id) {
@@ -248,7 +248,7 @@ public class DAOFactory {
 		public Group getGroup(int id) {
 			validatePaths();
 			
-			File path = new File(BASE_STORGAE_PATH + File.separator 
+			File path = new File(BASE_STORAGE_PATH + File.separator 
 					+ GROUP_STORAGE_PATH);
 			File groupFile = getFileByID(path, id);
 			String groupName = groupFile.getName().substring(
@@ -273,7 +273,7 @@ public class DAOFactory {
 				e.printStackTrace();
 			} catch (NumberFormatException e) {
 				throw new IllegalArgumentException(
-						INVALID_DATA_FOMAT_MESSAGE);
+						INVALID_DATA_FORMAT_MESSAGE);
 			}			
 			
 			return group;
@@ -291,7 +291,7 @@ public class DAOFactory {
 				groupId = group.getId();
 			}			
 			
-			File groupFile = new File(BASE_STORGAE_PATH + File.separator 
+			File groupFile = new File(BASE_STORAGE_PATH + File.separator 
 					+ GROUP_STORAGE_PATH + File.separator 
 					+ groupId + "_" + group.getGroupName() 
 					+ GROUP_FILE_EXTENSION);
@@ -329,7 +329,7 @@ public class DAOFactory {
 		public Student getStudent(int id) {
 			validatePaths();
 			
-			File path = new File(BASE_STORGAE_PATH + File.separator 
+			File path = new File(BASE_STORAGE_PATH + File.separator 
 					+ STUDENT_STORAGE_PATH);
 			File studentFile = getFileByID(path, id);						
 			Student student = null;
@@ -354,7 +354,7 @@ public class DAOFactory {
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (ParseException e) {
-				throw new IllegalArgumentException(INVALID_DATA_FOMAT_MESSAGE);
+				throw new IllegalArgumentException(INVALID_DATA_FORMAT_MESSAGE);
 			}			
 			return student;
 		}
@@ -371,7 +371,7 @@ public class DAOFactory {
 				studentId = student.getId();
 			}
 			
-			File studentFile = new File(BASE_STORGAE_PATH + File.separator 
+			File studentFile = new File(BASE_STORAGE_PATH + File.separator 
 					+ STUDENT_STORAGE_PATH + File.separator 
 					+ studentId + "_" + student.getLastName() 
 					+ STUDENT_FILE_EXTENSION);
