@@ -1,0 +1,19 @@
+{
+  "facultyName": "MATH",
+  "teachingMethod": "LONG_DISTANCE",
+  "groupName": "Lbxm-511",
+  "idNumber": "TX741852963",
+  "recordBookNumber": "654789",
+  "id": 2,
+  "firstName": "Howard",
+  "lastName": "Abrams",
+  "gender": "MALE",
+  "birthdate": {
+    "year": 2001,
+    "month": 6,
+    "dayOfMonth": 16,
+    "hourOfDay": 0,
+    "minute": 0,
+    "second": 0
+  }
+}

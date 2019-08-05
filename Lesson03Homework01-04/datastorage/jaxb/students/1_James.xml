@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<student>
+    <birthdate>01/03/1955</birthdate>
+    <firstName>Nelson</firstName>
+    <gender>MALE</gender>
+    <id>1</id>
+    <lastName>James</lastName>
+    <facultyName>BIOLOGY</facultyName>
+    <groupName>Lbxm-511</groupName>
+    <idNumber>PS789654321</idNumber>
+    <recordBookNumber>123789</recordBookNumber>
+    <teachingMethod>IN_PERSON</teachingMethod>
+</student>

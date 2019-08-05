@@ -5,7 +5,7 @@ import java.util.Comparator;
 /**
  * Class containing auxiliary instruments to work with humans
  * 
- * @version 0.1 15.07.2019
+ * @version 0.2 05.08.2019
  * @author Oleg
  */
 public class HumanHelper {
@@ -18,12 +18,12 @@ public class HumanHelper {
 	}
 
 	/**
-	 * Abstract comparator that provides reverse functionality
+	 * Abstract human comparator that provides reverse functionality
 	 * 
-	 * @version 0.1 15.07.2019
+	 * @version 0.2 05.08.2019
 	 * @author Oleg
 	 */
-	public static abstract class HumanComparator implements Comparator {
+	public static abstract class HumanComparator<T extends Human> implements Comparator<T> {
 		private boolean reverse;
 
 		/**
@@ -67,7 +67,7 @@ public class HumanHelper {
 	 * 
 	 * @return <code>Comparator</code>
 	 */
-	public static Comparator getFirstNameComaparator() {
+	public static Comparator<Human> getFirstNameComaparator() {
 		return new HumanFirstNameComparator();
 	}
 
@@ -78,17 +78,17 @@ public class HumanHelper {
 	 * @param reverse <code>boolean</code>
 	 * @return <code>Comparator</code>
 	 */
-	public static Comparator getFirstNameComaparator(boolean reverse) {
+	public static Comparator<Human> getFirstNameComaparator(boolean reverse) {
 		return new HumanFirstNameComparator(reverse);
 	}
 
 	/**
 	 * First name comparator
 	 * 
-	 * 0.1 15.07.2019
+	 * 0.2 05.08.2019
 	 * @author Oleg
 	 */
-	private static class HumanFirstNameComparator extends HumanComparator {
+	private static class HumanFirstNameComparator extends HumanComparator<Human> {
 
 		/**
 		 * Default constructor
@@ -107,13 +107,10 @@ public class HumanHelper {
 		}
 
 		@Override
-		public int compare(Object o1, Object o2) {
-			int result = NullChecker.check(o1, o2);
+		public int compare(Human human1, Human human2) {
+			int result = NullChecker.check(human1, human2);
 
 			if (result == NullChecker.NOT_NULL) {
-				Human human1 = (Human) o1;
-				Human human2 = (Human) o2;
-
 				result = human1.getFirstName().compareToIgnoreCase(human2.getFirstName());
 			}
 
@@ -126,7 +123,7 @@ public class HumanHelper {
 	 * 
 	 * @return <code>Comparator</code>
 	 */
-	public static Comparator getLastNameComaparator() {
+	public static Comparator<Human> getLastNameComaparator() {
 		return new HumanLastNameComparator();
 	}
 
@@ -136,17 +133,17 @@ public class HumanHelper {
 	 * @param reverse <code>boolean</code>
 	 * @return <code>Comparator</code>
 	 */
-	public static Comparator getLastNameComaparator(boolean reverse) {
+	public static Comparator<Human> getLastNameComaparator(boolean reverse) {
 		return new HumanLastNameComparator(reverse);
 	}
 
 	/**
 	 * Last name comparator
 	 * 
-	 * 0.1 15.07.2019
+	 * 0.1 05.08.2019
 	 * @author Oleg
 	 */
-	private static class HumanLastNameComparator extends HumanComparator {
+	private static class HumanLastNameComparator extends HumanComparator<Human> {
 
 		/**
 		 * Default constructor
@@ -165,13 +162,10 @@ public class HumanHelper {
 		}
 
 		@Override
-		public int compare(Object o1, Object o2) {
-			int result = NullChecker.check(o1, o2);
+		public int compare(Human human1, Human human2) {
+			int result = NullChecker.check(human1, human2);
 
 			if (result == NullChecker.NOT_NULL) {
-				Human human1 = (Human) o1;
-				Human human2 = (Human) o2;
-
 				result = human1.getLastName().compareToIgnoreCase(human2.getLastName());
 			}
 
@@ -184,7 +178,7 @@ public class HumanHelper {
 	 * 
 	 * @return <code>Comparator</code>
 	 */
-	public static Comparator getGenderComaparator() {
+	public static Comparator<Human> getGenderComaparator() {
 		return new HumanGenderComparator();
 	}
 
@@ -194,17 +188,17 @@ public class HumanHelper {
 	 * @param reverse <code>boolean</code>
 	 * @return <code>Comparator</code>
 	 */
-	public static Comparator getGenderComaparator(boolean reverse) {
+	public static Comparator<Human> getGenderComaparator(boolean reverse) {
 		return new HumanGenderComparator(reverse);
 	}
 
 	/**
 	 * Gender comparator
 	 * 
-	 * 0.1 15.07.2019
+	 * 0.2 05.08.2019
 	 * @author Oleg
 	 */
-	private static class HumanGenderComparator extends HumanComparator {
+	private static class HumanGenderComparator extends HumanComparator<Human> {
 
 		/**
 		 * Default constructor
@@ -223,13 +217,10 @@ public class HumanHelper {
 		}
 
 		@Override
-		public int compare(Object o1, Object o2) {
-			int result = NullChecker.check(o1, o2);
+		public int compare(Human human1, Human human2) {
+			int result = NullChecker.check(human1, human2);
 
 			if (result == NullChecker.NOT_NULL) {
-				Human human1 = (Human) o1;
-				Human human2 = (Human) o2;
-
 				result = human1.getGender().compareTo(human2.getGender());
 			}
 
@@ -242,7 +233,7 @@ public class HumanHelper {
 	 * 
 	 * @return <code>Comparator</code>
 	 */
-	public static Comparator getBirthdateComaparator() {
+	public static Comparator<Human> getBirthdateComaparator() {
 		return new HumanBirthdateComparator();
 	}
 
@@ -252,17 +243,17 @@ public class HumanHelper {
 	 * @param reverse <code>boolean</code>
 	 * @return <code>Comparator</code>
 	 */
-	public static Comparator getBirthdateComaparator(boolean reverse) {
+	public static Comparator<Human> getBirthdateComaparator(boolean reverse) {
 		return new HumanBirthdateComparator(reverse);
 	}
 
 	/**
 	 * Birth date comparator
 	 * 
-	 * 0.1 15.07.2019
+	 * 0.2 05.08.2019
 	 * @author Oleg
 	 */
-	private static class HumanBirthdateComparator extends HumanComparator {
+	private static class HumanBirthdateComparator extends HumanComparator<Human> {
 
 		/**
 		 * Default constructor
@@ -281,13 +272,10 @@ public class HumanHelper {
 		}
 
 		@Override
-		public int compare(Object o1, Object o2) {
-			int result = NullChecker.check(o1, o2);
+		public int compare(Human human1, Human human2) {
+			int result = NullChecker.check(human1, human2);
 
 			if (result == NullChecker.NOT_NULL) {
-				Human human1 = (Human) o1;
-				Human human2 = (Human) o2;
-
 				result = human1.getBirthdate().compareTo(human2.getBirthdate());
 			}
 

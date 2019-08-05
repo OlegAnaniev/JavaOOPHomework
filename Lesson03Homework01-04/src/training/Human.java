@@ -1,15 +1,21 @@
 package training;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import training.presistence.JAXBFactory;
 
 /**
  * Class representing a human
  * 
- * @version 0.1 10.07.2019
+ * @version 0.2 05.08.2019
  * @author Oleg
  */
-public class Human implements Cloneable {
+public class Human implements Cloneable, Serializable {
+	private static final long serialVersionUID = 1L;
 	public enum Gender {
 		MALE, FEMALE, UNKNOWN
 	}
@@ -60,6 +66,21 @@ public class Human implements Cloneable {
 		this.birthdate = (Calendar) birthdate.clone();
 	}
 
+	/**
+	 * Creates parameterized human
+	 * 
+	 * @param id <code>int</code>
+	 * @param firstName <code>String</code>
+	 * @param lastName <code>String</code>
+	 * @param gender <code>Human.Gender</code>
+	 * @param birthdate <code>Calendar</code>
+	 */
+	public Human(int id, String firstName, String lastName, Gender gender, 
+			Calendar birthdate) {
+		this(firstName, lastName, gender, birthdate);
+		this.id = id;
+	}
+	
 	/**
 	 * Creates parameterized human
 	 * 
@@ -156,13 +177,10 @@ public class Human implements Cloneable {
 	 * 
 	 * @return <code>Calendar</code>
 	 */
+	@XmlJavaTypeAdapter(JAXBFactory.BirthdateFormatter.class)
 	public Calendar getBirthdate() {
 		return (Calendar) birthdate.clone();
-	}
-	
-	public String getTextBirthdate() {
-		return dateFormat.format(birthdate.getTime());
-	}
+	}	
 
 	/**
 	 * Sets date of birth
@@ -173,6 +191,15 @@ public class Human implements Cloneable {
 		this.birthdate = (Calendar) birthdate.clone();
 	}
 
+	/**
+	 * Gets text representation of birthdate
+	 * 
+	 * @return <code>String</code>
+	 */
+	public String getTextBirthdate() {
+		return dateFormat.format(birthdate.getTime());
+	}
+	
 	/**
 	 * Gets text representation of the human
 	 */
@@ -236,7 +263,7 @@ public class Human implements Cloneable {
 	 * Clones the human
 	 */
 	@Override
-	protected Object clone() throws CloneNotSupportedException {		
-		return new Human(firstName, lastName, gender, birthdate);
+	protected Human clone() throws CloneNotSupportedException {		
+		return (Human) super.clone();
 	}	
 }

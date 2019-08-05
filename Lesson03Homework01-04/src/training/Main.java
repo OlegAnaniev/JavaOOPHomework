@@ -3,12 +3,12 @@ package training;
 import java.util.Arrays;
 import java.util.Calendar;
 
-import training.presistence.DAOFactory.UniversityDAO;
 import training.Faculty.FacultyName;
 import training.Human.Gender;
 import training.Student.TeachingMethod;
 import training.exceptions.TooManyStudentsException;
 import training.presistence.DAOFactory;
+import training.presistence.UniversityDAO;
 
 public class Main {
 
@@ -133,9 +133,79 @@ public class Main {
 		Student[] liable = group.getLiableStudents();
 		System.out.println(Arrays.toString(liable));
 		
-		UniversityDAO storage = DAOFactory.getFactory(DAOFactory.FILESYSTEM);		
+		System.out.println("Filesystem storage:");
+		UniversityDAO storage = DAOFactory.getFactory(DAOFactory.Type.FILESYSTEM);
+//		storage.insertGroup(group);
 		Group loadedGroup = storage.getGroup(1);		
 		System.out.println(loadedGroup);
-		storage.insertGroup(loadedGroup);		
+		storage.insertGroup(loadedGroup);
+//		storage.deleteGroup(loadedGroup);
+		
+		System.out.println("Serialization storage:");
+		storage = DAOFactory.getFactory(DAOFactory.Type.SERIALIZATION);
+		storage.insertGroup(loadedGroup);
+		loadedGroup = storage.getGroup(1);
+		System.out.println(loadedGroup);
+		storage.insertGroup(loadedGroup);
+//		storage.deleteGroup(loadedGroup);
+		
+		for (Student item : loadedGroup.getStudents()) {
+			if (item != null) {
+				storage.insertStudent(item);
+			}			
+		}
+		
+		Student loadedStudent = storage.getStudent(2);
+		System.out.println(loadedStudent);
+//		storage.deleteStudent(loadedStudent);
+		
+		System.out.println("XML storage:");
+		storage = DAOFactory.getFactory(DAOFactory.Type.XML);
+		storage.insertGroup(loadedGroup);
+		loadedGroup = storage.getGroup(1);
+		System.out.println(loadedGroup);
+		
+		for (Student item : loadedGroup.getStudents()) {
+			if (item != null) {
+				storage.insertStudent(item);
+			}			
+		}
+		
+		loadedStudent = storage.getStudent(2);
+		System.out.println(loadedStudent);
+//		storage.deleteStudent(loadedStudent);
+		
+		System.out.println("JAXB storage:");
+		storage = DAOFactory.getFactory(DAOFactory.Type.JAXB);
+		storage.insertGroup(loadedGroup);
+		loadedGroup = storage.getGroup(1);
+		System.out.println(loadedGroup);
+		
+		for (Student item : loadedGroup.getStudents()) {
+			if (item != null) {
+				storage.insertStudent(item);
+			}			
+		}
+		
+		loadedStudent = storage.getStudent(2);
+		System.out.println(loadedStudent);
+		
+		//TODO: JAXB date conversion!!!
+		
+		System.out.println("GSON storage:");
+		storage = DAOFactory.getFactory(DAOFactory.Type.GSON);
+		storage.insertGroup(loadedGroup);
+		loadedGroup = storage.getGroup(1);
+		System.out.println(loadedGroup);
+		
+		for (Student item : loadedGroup.getStudents()) {
+			if (item != null) {
+				storage.insertStudent(item);
+			}			
+		}
+		
+		loadedStudent = storage.getStudent(2);
+		System.out.println(loadedStudent);
+		
 	}
 }

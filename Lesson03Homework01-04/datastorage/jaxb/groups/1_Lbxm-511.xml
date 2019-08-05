@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<group>
+    <id>1</id>
+    <name>Lbxm-511</name>
+    <students>
+        <student>
+            <birthdate>01/03/1955</birthdate>
+            <firstName>Nelson</firstName>
+            <gender>MALE</gender>
+            <id>1</id>
+            <lastName>James</lastName>
+            <facultyName>BIOLOGY</facultyName>
+            <groupName>Lbxm-511</groupName>
+            <idNumber>PS789654321</idNumber>
+            <recordBookNumber>123789</recordBookNumber>
+            <teachingMethod>IN_PERSON</teachingMethod>
+        </student>
+        <student>
+            <birthdate>16/07/2001</birthdate>
+            <firstName>Howard</firstName>
+            <gender>MALE</gender>
+            <id>2</id>
+            <lastName>Abrams</lastName>
+            <facultyName>MATH</facultyName>
+            <groupName>Lbxm-511</groupName>
+            <idNumber>TX741852963</idNumber>
+            <recordBookNumber>654789</recordBookNumber>
+            <teachingMethod>LONG_DISTANCE</teachingMethod>
+        </student>
+        <student>
+            <birthdate>05/11/1995</birthdate>
+            <firstName>Eliza</firstName>
+            <gender>FEMALE</gender>
+            <id>3</id>
+            <lastName>Graves</lastName>
+            <facultyName>ECONOMICS</facultyName>
+            <groupName>Lbxm-511</groupName>
+            <idNumber>NY159755456</idNumber>
+            <recordBookNumber>852456</recordBookNumber>
+            <teachingMethod>ON_LINE</teachingMethod>
+        </student>
+    </students>
+</group>

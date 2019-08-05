@@ -1,0 +1,64 @@
+{
+  "id": 1,
+  "name": "Lbxm-511",
+  "students": [
+    {
+      "facultyName": "BIOLOGY",
+      "teachingMethod": "IN_PERSON",
+      "groupName": "Lbxm-511",
+      "idNumber": "PS789654321",
+      "recordBookNumber": "123789",
+      "id": 1,
+      "firstName": "Nelson",
+      "lastName": "James",
+      "gender": "MALE",
+      "birthdate": {
+        "year": 1955,
+        "month": 2,
+        "dayOfMonth": 1,
+        "hourOfDay": 0,
+        "minute": 0,
+        "second": 0
+      }
+    },
+    {
+      "facultyName": "MATH",
+      "teachingMethod": "LONG_DISTANCE",
+      "groupName": "Lbxm-511",
+      "idNumber": "TX741852963",
+      "recordBookNumber": "654789",
+      "id": 2,
+      "firstName": "Howard",
+      "lastName": "Abrams",
+      "gender": "MALE",
+      "birthdate": {
+        "year": 2001,
+        "month": 6,
+        "dayOfMonth": 16,
+        "hourOfDay": 0,
+        "minute": 0,
+        "second": 0
+      }
+    },
+    {
+      "facultyName": "ECONOMICS",
+      "teachingMethod": "ON_LINE",
+      "groupName": "Lbxm-511",
+      "idNumber": "NY159755456",
+      "recordBookNumber": "852456",
+      "id": 3,
+      "firstName": "Eliza",
+      "lastName": "Graves",
+      "gender": "FEMALE",
+      "birthdate": {
+        "year": 1995,
+        "month": 10,
+        "dayOfMonth": 5,
+        "hourOfDay": 0,
+        "minute": 0,
+        "second": 0
+      }
+    }
+  ],
+  "counter": 3
+}

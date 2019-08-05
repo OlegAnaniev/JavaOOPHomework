@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<student>
+    <birthdate>16/07/2001</birthdate>
+    <firstName>Howard</firstName>
+    <gender>MALE</gender>
+    <id>2</id>
+    <lastName>Abrams</lastName>
+    <facultyName>MATH</facultyName>
+    <groupName>Lbxm-511</groupName>
+    <idNumber>TX741852963</idNumber>
+    <recordBookNumber>654789</recordBookNumber>
+    <teachingMethod>LONG_DISTANCE</teachingMethod>
+</student>

@@ -1,0 +1,19 @@
+{
+  "facultyName": "ECONOMICS",
+  "teachingMethod": "ON_LINE",
+  "groupName": "Lbxm-511",
+  "idNumber": "NY159755456",
+  "recordBookNumber": "852456",
+  "id": 3,
+  "firstName": "Eliza",
+  "lastName": "Graves",
+  "gender": "FEMALE",
+  "birthdate": {
+    "year": 1995,
+    "month": 10,
+    "dayOfMonth": 5,
+    "hourOfDay": 0,
+    "minute": 0,
+    "second": 0
+  }
+}

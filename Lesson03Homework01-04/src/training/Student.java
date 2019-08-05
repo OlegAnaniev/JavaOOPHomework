@@ -1,21 +1,28 @@
 package training;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import training.Faculty.FacultyName;
+import training.presistence.FileStorable;
 
 /**
  * Class representing a student
  * 
- * @version 0.1 10.07.2019
+ * @version 0.2 05.08.2019
  * @author Oleg
  */
-public class Student extends Human implements Cloneable {
+@XmlRootElement(name = "student")
+public class Student extends Human implements Cloneable, Serializable, 
+	FileStorable {
+	
+	private static final long serialVersionUID = 1L;
 	public enum TeachingMethod {
 		IN_PERSON, LONG_DISTANCE, ON_LINE, ON_LINE_AND_IN_PERSON, SELF_STUDY, 
 		NONE
-	}
-	
+	}	
 	private final static String NONE = "none";
 	private Faculty.FacultyName facultyName;
 	private TeachingMethod teachingMethod;
@@ -51,6 +58,28 @@ public class Student extends Human implements Cloneable {
 		super(firstName, lastName, gender, birthdate);
 		initializeClassFields(facultyName, teachingMethod, idNumber, 
 				recordBookNumber);
+	}
+	
+	/**
+	 * Creates parameterized student
+	 * 
+	 * @param id <code>int</code>
+	 * @param firstName <code>String</code>
+	 * @param lastName <code>String</code>
+	 * @param gender <code>Human.Gender</code>
+	 * @param birthdate <code>Calendar</code>
+	 * @param facultyName <code>Faculty.Name</code>
+	 * @param teachingMethod <code>TeachingMethod</code>
+	 * @param idNumber <code>String</code>
+	 * @param recordBookNumber <code>String</code>
+	 */
+	public Student(int id, String firstName, String lastName, Gender gender, 
+			Calendar birthdate, FacultyName facultyName, 
+			TeachingMethod teachingMethod, String idNumber, 
+			String recordBookNumber) {
+		super(id, firstName, lastName, gender, birthdate);
+		initializeClassFields(facultyName, teachingMethod, idNumber, 
+				recordBookNumber);		
 	}
 
 	/**
@@ -92,6 +121,11 @@ public class Student extends Human implements Cloneable {
 		this.teachingMethod = teachingMethod;
 		this.idNumber = idNumber;
 		this.recordBookNumber = recordBookNumber;
+	}	
+	
+	@Override
+	public String getFileName() {
+		return this.getLastName();
 	}
 
 	/**
@@ -120,7 +154,6 @@ public class Student extends Human implements Cloneable {
 	public TeachingMethod getTeachingMethod() {
 		return teachingMethod;
 	}
-
 	
 	/**
 	 * Sets teaching method
@@ -190,7 +223,8 @@ public class Student extends Human implements Cloneable {
 	 */
 	@Override
 	public String toString() {
-		return "Student [firstName=" + this.getFirstName() 
+		return "Student [id=" + this.getId()
+			+ ", firstName=" + this.getFirstName() 
 			+ ", lastName=" + this.getLastName() 
 			+ ", gender=" + this.getGender() 
 			+ ", birthdate=" + getTextBirthdate()
@@ -259,11 +293,7 @@ public class Student extends Human implements Cloneable {
 	 * Clones the student
 	 */
 	@Override
-	protected Object clone() throws CloneNotSupportedException {		
-		Student student = new Student(this.getFirstName(), this.getLastName(), 
-				this.getGender(), this.getBirthdate(), facultyName, 
-				teachingMethod, idNumber, recordBookNumber);
-		student.setGroupName(this.groupName);
-		return student;
+	protected Student clone() throws CloneNotSupportedException {		
+		return (Student) super.clone();
 	}		
 }

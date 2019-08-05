@@ -12,7 +12,7 @@ import training.Student.TeachingMethod;
 /**
  * Class containing auxiliary instruments to work with students
  * 
- * @version 0.1 15.07.2019
+ * @version 0.2 05.08.2019
  * @author Oleg
  */
 public class StudentHelper {
@@ -190,6 +190,7 @@ public class StudentHelper {
 		 * @return <code>int</code>
 		 */
 		private int getIntConsoleInput(String message, int from, int to) {
+			@SuppressWarnings("resource")
 			Scanner scanner = new Scanner(System.in);
 			String userInput;
 			int result;
@@ -220,12 +221,85 @@ public class StudentHelper {
 	}
 	
 	/**
+	 * Class adapting human comparators for students
+	 * 
+	 * @version 0.1 05.08.2019
+	 * @author Oleg
+	 */
+	private static class HumanComparatorAdapter implements 
+		Comparator<Student> {
+		
+		public enum Type {
+			FIRST_NAME, LAST_NAME, GENDER, BIRTHDATE
+		}		
+		private Comparator<Human> comparator;
+
+		/**
+		 * Default constructor
+		 */
+		@SuppressWarnings("unused")
+		public HumanComparatorAdapter() {
+			super();
+		}
+
+		/**
+		 * Constructor accepting human comparator
+		 * 
+		 * @param comparator <code>HumanComparator&lt;Human&gt;</code>
+		 */
+		@SuppressWarnings("unused")
+		public HumanComparatorAdapter(HumanComparator<Human> comparator) {
+			super();
+			this.comparator = comparator;
+		}
+		
+		/**
+		 * Constructor accepting comparator type
+		 * 
+		 * @param type <code>Type</code>
+		 */
+		public HumanComparatorAdapter(Type type) {
+			this(type, false);
+		}
+		
+		/**
+		 * Constructor accepting comparator type and reverse value
+		 * 
+		 * @param type <code>Type</code>
+		 * @param reverse <code>boolean</code>
+		 */
+		public HumanComparatorAdapter(Type type, boolean reverse) {
+			switch (type) {
+			case FIRST_NAME:
+				comparator = HumanHelper.getFirstNameComaparator(reverse);
+				break;
+			case LAST_NAME:
+				comparator = HumanHelper.getLastNameComaparator(reverse);
+				break;
+			case GENDER:
+				comparator = HumanHelper.getGenderComaparator(reverse);
+				break;
+			case BIRTHDATE:
+				comparator = HumanHelper.getBirthdateComaparator(reverse);
+			default:
+				break;
+			}
+		}
+
+		@Override
+		public int compare(Student student1, Student student2) {
+			return comparator.compare(student1, student2);
+		}		
+	}
+	
+	/**
 	 * Gets first name comparator
 	 * 
 	 * @return <code>Comparator</code>
 	 */
-	public static Comparator getFirstNameComaparator() {
-		return HumanHelper.getFirstNameComaparator();
+	public static Comparator<Student> getFirstNameComaparator() {
+		return new HumanComparatorAdapter(
+				HumanComparatorAdapter.Type.FIRST_NAME);
 	}
 
 	/**
@@ -234,8 +308,10 @@ public class StudentHelper {
 	 * @param reverse <code>boolean</code>
 	 * @return <code>Comparator</code>
 	 */
-	public static Comparator getFirstNameComaparator(boolean reverse) {
-		return HumanHelper.getFirstNameComaparator(reverse);
+	public static Comparator<Student> getFirstNameComaparator(
+			boolean reverse) {
+		return new HumanComparatorAdapter(
+				HumanComparatorAdapter.Type.FIRST_NAME, reverse);
 	}
 	
 	
@@ -244,8 +320,9 @@ public class StudentHelper {
 	 * 
 	 * @return <code>Comparator</code>
 	 */
-	public static Comparator getLastNameComaparator() {
-		return HumanHelper.getLastNameComaparator();
+	public static Comparator<Student> getLastNameComaparator() {
+		return new HumanComparatorAdapter(
+				HumanComparatorAdapter.Type.LAST_NAME);
 	}
 	
 	/**
@@ -254,8 +331,9 @@ public class StudentHelper {
 	 * @param reverse <code>boolean</code>
 	 * @return <code>Comparator</code>
 	 */
-	public static Comparator getLastNameComaparator(boolean reverse) {
-		return HumanHelper.getLastNameComaparator(reverse);
+	public static Comparator<Student> getLastNameComaparator(boolean reverse) {
+		return new HumanComparatorAdapter(
+				HumanComparatorAdapter.Type.LAST_NAME, reverse);
 	}
 	
 	/**
@@ -263,8 +341,8 @@ public class StudentHelper {
 	 * 
 	 * @return <code>Comparator</code>
 	 */
-	public static Comparator getGenderComaparator() {
-		return HumanHelper.getGenderComaparator();
+	public static Comparator<Student> getGenderComaparator() {
+		return new HumanComparatorAdapter(HumanComparatorAdapter.Type.GENDER);
 	}
 	
 	/**
@@ -273,8 +351,9 @@ public class StudentHelper {
 	 * @param reverse <code>boolean</code>
 	 * @return <code>Comparator</code>
 	 */
-	public static Comparator getGenderComaparator(boolean reverse) {
-		return HumanHelper.getGenderComaparator(reverse);
+	public static Comparator<Student> getGenderComaparator(boolean reverse) {
+		return new HumanComparatorAdapter(
+				HumanComparatorAdapter.Type.GENDER, reverse);
 	}
 	
 	/**
@@ -282,8 +361,9 @@ public class StudentHelper {
 	 * 
 	 * @return <code>Comparator</code>
 	 */	
-	public static Comparator getBirthdateComaparator() {
-		return HumanHelper.getBirthdateComaparator();
+	public static Comparator<Student> getBirthdateComaparator() {
+		return new HumanComparatorAdapter(
+				HumanComparatorAdapter.Type.BIRTHDATE);
 	}
 
 	/**
@@ -292,8 +372,10 @@ public class StudentHelper {
 	 * @param reverse <code>boolean</code>
 	 * @return <code>Comparator</code>
 	 */
-	public static Comparator getBirthdateComaparator(boolean reverse) {
-		return HumanHelper.getBirthdateComaparator(reverse);
+	public static Comparator<Student> getBirthdateComaparator(
+			boolean reverse) {
+		return new HumanComparatorAdapter(
+				HumanComparatorAdapter.Type.BIRTHDATE, reverse);
 	}
 	
 	/**
@@ -301,7 +383,7 @@ public class StudentHelper {
 	 * 
 	 * @return <code>Comparator</code>
 	 */		
-	public static Comparator getFacultyComaparator() {
+	public static Comparator<Student> getFacultyComaparator() {
 		return new StudentFacultyComparator();
 	}
 	
@@ -311,17 +393,18 @@ public class StudentHelper {
 	 * @param reverse <code>boolean</code>
 	 * @return <code>Comparator</code>
 	 */
-	public static Comparator getFacultyComaparator(boolean reverse) {
+	public static Comparator<Student> getFacultyComaparator(boolean reverse) {
 		return new StudentFacultyComparator(reverse);
 	}
 	
 	/**
 	 * Faculty comparator
 	 * 
-	 * 0.1 15.07.2019
+	 * 0.2 05.08.2019
 	 * @author Oleg
 	 */
-	private static class StudentFacultyComparator extends HumanComparator {	
+	private static class StudentFacultyComparator extends 
+		HumanComparator<Student> {	
 		
 		/**
 		 * Default constructor
@@ -340,13 +423,10 @@ public class StudentHelper {
 		}
 
 		@Override
-		public int compare(Object o1, Object o2) {		
-			int result = NullChecker.check(o1, o2);
+		public int compare(Student student1, Student student2) {		
+			int result = NullChecker.check(student1, student2);
 
-			if (result == NullChecker.NOT_NULL) {
-				Student student1 = (Student) o1;
-				Student student2 = (Student) o2;
-				
+			if (result == NullChecker.NOT_NULL) {				
 				result = student1.getFacultyName().compareTo(
 						student2.getFacultyName());
 			}		
@@ -360,7 +440,7 @@ public class StudentHelper {
 	 * 
 	 * @return <code>Comparator</code>
 	 */	
-	public static Comparator getTeachingMethodComaparator() {
+	public static Comparator<Student> getTeachingMethodComaparator() {
 		return new StudenteachingMethodComparator();
 	}
 	
@@ -370,18 +450,19 @@ public class StudentHelper {
 	 * @param reverse <code>boolean</code>
 	 * @return <code>Comparator</code>
 	 */
-	public static Comparator getTeachingMethodComaparator(boolean reverse) {
+	public static Comparator<Student> getTeachingMethodComaparator(
+			boolean reverse) {
 		return new StudenteachingMethodComparator(reverse);
 	}
 	
 	/**
 	 * Teaching method comparator
 	 * 
-	 * 0.1 15.07.2019
+	 * 0.2 05.08.2019
 	 * @author Oleg
 	 */
 	private static class StudenteachingMethodComparator 
-		extends HumanComparator {	
+		extends HumanComparator<Student> {	
 		
 		/**
 		 * Default constructor
@@ -400,13 +481,10 @@ public class StudentHelper {
 		}
 
 		@Override
-		public int compare(Object o1, Object o2) {		
-			int result = NullChecker.check(o1, o2);
+		public int compare(Student student1, Student student2) {		
+			int result = NullChecker.check(student1, student2);
 
-			if (result == NullChecker.NOT_NULL) {
-				Student student1 = (Student) o1;
-				Student student2 = (Student) o2;
-				
+			if (result == NullChecker.NOT_NULL) {				
 				result = student1.getTeachingMethod().compareTo(
 						student2.getTeachingMethod());
 			}		
@@ -420,7 +498,7 @@ public class StudentHelper {
 	 * 
 	 * @return <code>Comparator</code>
 	 */	
-	public static Comparator getGroupComaparator() {
+	public static Comparator<Student> getGroupComaparator() {
 		return new StudentGroupComparator();
 	}
 	
@@ -430,17 +508,18 @@ public class StudentHelper {
 	 * @param reverse <code>boolean</code>
 	 * @return <code>Comparator</code>
 	 */
-	public static Comparator getGroupComaparator(boolean reverse) {
+	public static Comparator<Student> getGroupComaparator(boolean reverse) {
 		return new StudentGroupComparator(reverse);
 	}
 	
 	/**
 	 * Group comparator
 	 * 
-	 * 0.1 15.07.2019
+	 * 0.2 05.08.2019
 	 * @author Oleg
 	 */
-	private static class StudentGroupComparator extends HumanComparator {	
+	private static class StudentGroupComparator extends 
+		HumanComparator<Student> {	
 		
 		/**
 		 * Default constructor
@@ -459,13 +538,10 @@ public class StudentHelper {
 		}
 
 		@Override
-		public int compare(Object o1, Object o2) {		
-			int result = NullChecker.check(o1, o2);
+		public int compare(Student student1, Student student2) {		
+			int result = NullChecker.check(student1, student2);
 
-			if (result == NullChecker.NOT_NULL) {
-				Student student1 = (Student) o1;
-				Student student2 = (Student) o2;
-				
+			if (result == NullChecker.NOT_NULL) {				
 				result = student1.getGroupName().compareToIgnoreCase(
 						student2.getGroupName());
 			}		
@@ -479,7 +555,7 @@ public class StudentHelper {
 	 * 
 	 * @return <code>Comparator</code>
 	 */	
-	public static Comparator getIdComaparator() {
+	public static Comparator<Student> getIdComaparator() {
 		return new StudentIdComparator();
 	}
 	
@@ -489,17 +565,17 @@ public class StudentHelper {
 	 * @param reverse <code>boolean</code>
 	 * @return <code>Comparator</code>
 	 */
-	public static Comparator getIdComaparator(boolean reverse) {
+	public static Comparator<Student> getIdComaparator(boolean reverse) {
 		return new StudentIdComparator(reverse);
 	}
 	
 	/**
 	 * ID comparator
 	 * 
-	 * 0.1 15.07.2019
+	 * 0.2 05.08.2019
 	 * @author Oleg
 	 */
-	private static class StudentIdComparator extends HumanComparator {	
+	private static class StudentIdComparator extends HumanComparator<Student> {	
 		
 		/**
 		 * Default constructor
@@ -518,13 +594,10 @@ public class StudentHelper {
 		}
 
 		@Override
-		public int compare(Object o1, Object o2) {		
-			int result = NullChecker.check(o1, o2);
+		public int compare(Student student1, Student student2) {		
+			int result = NullChecker.check(student1, student2);
 
-			if (result == NullChecker.NOT_NULL) {
-				Student student1 = (Student) o1;
-				Student student2 = (Student) o2;
-				
+			if (result == NullChecker.NOT_NULL) {				
 				result = student1.getIdNumber().compareToIgnoreCase(
 						student2.getIdNumber());
 			}		
@@ -538,7 +611,7 @@ public class StudentHelper {
 	 * 
 	 * @return <code>Comparator</code>
 	 */	
-	public static Comparator getRecordBookComaparator() {
+	public static Comparator<Student> getRecordBookComaparator() {
 		return new StudentRecordBookComparator();
 	}
 	
@@ -548,17 +621,19 @@ public class StudentHelper {
 	 * @param reverse <code>boolean</code>
 	 * @return <code>Comparator</code>
 	 */
-	public static Comparator getRecordBookComaparator(boolean reverse) {
+	public static Comparator<Student> getRecordBookComaparator(
+			boolean reverse) {
 		return new StudentRecordBookComparator(reverse);
 	}
 	
 	/**
 	 * Record book comparator
 	 * 
-	 * 0.1 15.07.2019
+	 * 0.2 05.08.2019
 	 * @author Oleg
 	 */
-	private static class StudentRecordBookComparator extends HumanComparator {	
+	private static class StudentRecordBookComparator extends 
+		HumanComparator<Student> {	
 		
 		/**
 		 * Default constructor
@@ -577,13 +652,10 @@ public class StudentHelper {
 		}
 
 		@Override
-		public int compare(Object o1, Object o2) {		
-			int result = NullChecker.check(o1, o2);
+		public int compare(Student student1, Student student2) {		
+			int result = NullChecker.check(student1, student2);
 
-			if (result == NullChecker.NOT_NULL) {
-				Student student1 = (Student) o1;
-				Student student2 = (Student) o2;
-				
+			if (result == NullChecker.NOT_NULL) {				
 				result = student1.getRecordBookNumber().compareToIgnoreCase(
 						student2.getRecordBookNumber());
 			}		

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<student>
+    <birthdate>05/11/1995</birthdate>
+    <firstName>Eliza</firstName>
+    <gender>FEMALE</gender>
+    <id>3</id>
+    <lastName>Graves</lastName>
+    <facultyName>ECONOMICS</facultyName>
+    <groupName>Lbxm-511</groupName>
+    <idNumber>NY159755456</idNumber>
+    <recordBookNumber>852456</recordBookNumber>
+    <teachingMethod>ON_LINE</teachingMethod>
+</student>
