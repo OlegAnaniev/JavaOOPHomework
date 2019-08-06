@@ -205,5 +205,8 @@ public class Main {
 		loadedStudent = storage.getStudent(2);
 		System.out.println(loadedStudent);
 		
+		List<Student> students = group.getStudents('g');
+		System.out.println(students);
+		
 	}
 }

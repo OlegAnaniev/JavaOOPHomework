@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -184,6 +185,20 @@ public class Group implements MilitaryManager, Serializable, FileStorable {
 		return null;
 	}
 
+	/**
+	 * Gets list of students who's last name starts with a given letter
+	 * 
+	 * @param firstLetterOfLastName <code>char</code>
+	 * @return <code>List&lt;Student&gt;</code>
+	 */
+	public List<Student> getStudents(char firstLetterOfLastName) {
+		List<Student> result = students.stream()
+				.filter(n -> Character.toLowerCase(n.getLastName().charAt(0))
+					== Character.toLowerCase(firstLetterOfLastName))
+				.collect(Collectors.toCollection(ArrayList::new));
+		return result;
+	}
+	
 	/**
 	 * Gets currently set comparator
 	 * 
