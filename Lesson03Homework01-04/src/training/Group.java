@@ -1,10 +1,15 @@
 package training;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlElements;
@@ -18,17 +23,19 @@ import training.presistence.FileStorable;
 /**
  * Class representing a group
  * 
- * @version 0.2 05.08.2019
+ * @version 0.3 05.08.2019
  * @author Oleg
  */
+@XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "group")
 public class Group implements MilitaryManager, Serializable, FileStorable {
 	private static final long serialVersionUID = 1L;
 	private final static int GROUP_SIZE = 10;
 	private int id;
 	private String name;
-	private Student[] students;
-	private int counter;
+	@XmlElementWrapper(name = "students")
+	@XmlElements({ @XmlElement(name = "student", type = Student.class) })
+	private List<Student> students;
 	private transient Comparator<Student> comparator;
 
 	/**
@@ -37,7 +44,7 @@ public class Group implements MilitaryManager, Serializable, FileStorable {
 	public Group() {
 		super();
 		this.name = "Default";
-		this.students = new Student[GROUP_SIZE];
+		this.students = new ArrayList<Student>();
 	}
 
 	/**
@@ -97,29 +104,27 @@ public class Group implements MilitaryManager, Serializable, FileStorable {
 	public void setName(String groupName) {
 		this.name = groupName;
 
-		for (int i = 0; i < counter; i++) {
-			students[i].setGroupName(this.name);
+		for (Student student : students) {
+			student.setGroupName(groupName);
 		}
 	}
 
 	/**
 	 * Gets the array of students
 	 * 
-	 * @return <code>Student[]</code>
+	 * @return <code>List&lt;Student&gt;</code>
 	 */
-	@XmlElementWrapper(name = "students")
-	@XmlElements({ @XmlElement(name = "student", type = Student.class) })
-	public Student[] getStudents() {
-		return Arrays.copyOf(students, students.length);
+	public List<Student> getStudents() {
+		return new ArrayList<Student>(students);
 	}
 
 	/**
 	 * Sets the array of students
 	 * 
-	 * @param groupMembers <code>Student[]</code>
+	 * @param groupMembers <code>List&lt;Student&gt;</code>
 	 */
-	public void setStudents(Student[] students) {
-		this.students = Arrays.copyOf(students, students.length);
+	public void setStudents(List<Student> students) {
+		this.students = new ArrayList<Student>(students);
 	}
 
 	@Override
@@ -138,17 +143,12 @@ public class Group implements MilitaryManager, Serializable, FileStorable {
 			throw new IllegalArgumentException("Student cannot be null");
 		}
 
-		if (counter == GROUP_SIZE) {
+		if (students.size() == GROUP_SIZE) {
 			throw new TooManyStudentsException();
 		}
 
-		try {
-			students[counter] = student.clone();
-			students[counter].setGroupName(name);
-			counter++;
-		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
-		}
+		student.setGroupName(name);
+		students.add(student);
 	}
 
 	/**
@@ -159,14 +159,9 @@ public class Group implements MilitaryManager, Serializable, FileStorable {
 	 * 		   and false otherwise
 	 */
 	public boolean removeStudent(Student student) {
-		for (int i = 0; i < counter; i++) {
-			if (student.equals(students[i])) {
-				Student[] tempStudents = new Student[students.length];
-				System.arraycopy(students, 0, tempStudents, 0, i);
-				System.arraycopy(students, i + 1, tempStudents, i, 
-						counter - i);
-				students = tempStudents;
-				counter--;
+		for (Student item : students) {
+			if (student.equals(item)) {
+				students.remove(student);
 				return true;
 			}
 		}
@@ -180,13 +175,9 @@ public class Group implements MilitaryManager, Serializable, FileStorable {
 	 * @return <code>Student</code>
 	 */
 	public Student getStudent(String lastName) {
-		for (int i = 0; i < counter; i++) {
-			if (students[i].getLastName().equals(lastName)) {
-				try {
-					return (Student) students[i].clone();
-				} catch (CloneNotSupportedException e) {
-					e.printStackTrace();
-				}
+		for (Student student : students) {
+			if (student.getLastName().equalsIgnoreCase(lastName)) {
+				return student;
 			}
 		}
 
@@ -218,22 +209,39 @@ public class Group implements MilitaryManager, Serializable, FileStorable {
 	 */
 	@Override
 	public String toString() {
-		StringBuilder text = new StringBuilder("Group " + name + ":");
-		Student[] array = Arrays.copyOf(students, counter);
+		StringBuilder text = new StringBuilder("Group " + name + ":");		
 
 		if (comparator != null) {
-			Arrays.sort(array, 0, counter, comparator);
+			Collections.sort(students, comparator);
 		} else {
+			Student[] array = convertArrayOfObjects(students.toArray());
 			quickSort(array, 0, array.length - 1);
+			students = new ArrayList<Student>(Arrays.asList(array));
 		}
 
-		for (Student student : array) {
+		for (Student student : students) {
 			text.append(System.lineSeparator() + student);
 		}
 
 		return text.toString();
 	}
 
+	/**
+	 * Converts array of objects into array of students
+	 * 
+	 * @param array <code>Object[]</code>
+	 * @return <code>Student[]</code>
+	 */
+	private Student[] convertArrayOfObjects(Object[] array) {
+		Student[] result = new Student[array.length];
+		
+		for (int i = 0; i < result.length; i++) {
+			result[i] = (Student) array[i];			
+		}
+		
+		return result;
+	}
+	
 	/**
 	 * Sorts array of student by last name ascending
 	 * 
@@ -274,44 +282,17 @@ public class Group implements MilitaryManager, Serializable, FileStorable {
 	}
 
 	@Override
-	public Student[] getLiableStudents() {
-		int liableCount = countLiable();
-		Student[] liable = new Student[liableCount];
+	public List<Student> getLiableStudents() {
+		List<Student> liable = new ArrayList<Student>();
 
-		if (liableCount > 0) {
-			int position = 0;
-			for (int i = 0; i < counter; i++) {
-				if (students[i].getGender() == Gender.MALE 
-						&& isAdult(students[i])) {
-					try {
-						liable[position] = (Student) students[i].clone();
-						position++;
-					} catch (CloneNotSupportedException e) {
-						e.printStackTrace();
-					}
-				}
+		for (Student student : students) {
+			if (student.getGender() == Gender.MALE 
+					&& isAdult(student)) {
+				liable.add(student);
 			}
 		}
 
 		return liable;
-	}
-
-	/**
-	 * Count the number of military liable students
-	 * 
-	 * @return <code>int</code>
-	 */
-	private int countLiable() {
-		int count = 0;
-
-		for (int i = 0; i < counter; i++) {
-			if (students[i].getGender() == Gender.MALE 
-					&& isAdult(students[i])) {
-				count++;
-			}
-		}
-
-		return count;
 	}
 
 	/**

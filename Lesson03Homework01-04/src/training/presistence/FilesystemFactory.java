@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.util.Calendar;
+import java.util.List;
 
 import training.Faculty.FacultyName;
 import training.Group;
@@ -104,14 +105,12 @@ public class FilesystemFactory implements UniversityDAO {
 				GROUP_FILE_EXTENSION);
 		
 		try (PrintWriter writer = new PrintWriter(file)) {
-			Student[] students = group.getStudents();
+			List<Student> students = group.getStudents();
 			for (Student student : students) {
-				if (student != null) {						
-					if (insertStudent(student) == -1) {
-						return -1;
-					}
-					writer.println(student.getId());
+				if (insertStudent(student) == -1) {
+					return -1;
 				}
+				writer.println(student.getId());
 			}				
 		} catch (IOException e) {
 			return -1;
@@ -124,15 +123,13 @@ public class FilesystemFactory implements UniversityDAO {
 	public boolean deleteGroup(Group group) {
 		FileFactoryHelper.validateFolder(groupStorage);
 		
-		Student[] students = group.getStudents();
+		List<Student> students = group.getStudents();
 		boolean result;
 		
 		for (Student student : students) {
-			if (!(student == null)) {
-				result = deleteStudent(student);
-				if (!result) {
-					return false;
-				}
+			result = deleteStudent(student);
+			if (!result) {
+				return false;
 			}				
 		}
 		

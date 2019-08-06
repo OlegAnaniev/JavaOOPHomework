@@ -3,25 +3,6 @@
   "name": "Lbxm-511",
   "students": [
     {
-      "facultyName": "BIOLOGY",
-      "teachingMethod": "IN_PERSON",
-      "groupName": "Lbxm-511",
-      "idNumber": "PS789654321",
-      "recordBookNumber": "123789",
-      "id": 1,
-      "firstName": "Nelson",
-      "lastName": "James",
-      "gender": "MALE",
-      "birthdate": {
-        "year": 1955,
-        "month": 2,
-        "dayOfMonth": 1,
-        "hourOfDay": 0,
-        "minute": 0,
-        "second": 0
-      }
-    },
-    {
       "facultyName": "MATH",
       "teachingMethod": "LONG_DISTANCE",
       "groupName": "Lbxm-511",
@@ -58,7 +39,25 @@
         "minute": 0,
         "second": 0
       }
+    },
+    {
+      "facultyName": "BIOLOGY",
+      "teachingMethod": "IN_PERSON",
+      "groupName": "Lbxm-511",
+      "idNumber": "PS789654321",
+      "recordBookNumber": "123789",
+      "id": 1,
+      "firstName": "Nelson",
+      "lastName": "James",
+      "gender": "MALE",
+      "birthdate": {
+        "year": 1955,
+        "month": 2,
+        "dayOfMonth": 1,
+        "hourOfDay": 0,
+        "minute": 0,
+        "second": 0
+      }
     }
-  ],
-  "counter": 3
+  ]
 }

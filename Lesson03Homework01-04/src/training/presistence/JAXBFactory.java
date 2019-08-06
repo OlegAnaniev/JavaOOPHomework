@@ -1,7 +1,6 @@
 package training.presistence;
 
 import java.io.File;
-import java.lang.reflect.Field;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -47,11 +46,8 @@ public class JAXBFactory implements UniversityDAO {
 
 		File file = FileFactoryHelper.getFile(groupStorage, id);
 
-		try {
-			Group group = (Group) loadFromXML(file, Group.class);
-			setGroupCounter(group);			
-			
-			return group;
+		try {			
+			return (Group) loadFromXML(file, Group.class);			
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
@@ -188,24 +184,6 @@ public class JAXBFactory implements UniversityDAO {
 		Unmarshaller unmarshaller = context.createUnmarshaller();
 		
 		return unmarshaller.unmarshal(file);
-	}
-	
-	/**
-	 * Sets group counter not loaded from file
-	 */
-	private void setGroupCounter(Group group) {		
-		try {
-			Class<?> cls = group.getClass();
-			Field field = cls.getDeclaredField("counter");
-			field.setAccessible(true);
-			field.set(group, group.getStudents().length);
-			
-			
-		} catch (NoSuchFieldException | SecurityException | 
-				IllegalArgumentException | IllegalAccessException e) {
-			e.printStackTrace();
-		}
-		
 	}
 	
 	/**

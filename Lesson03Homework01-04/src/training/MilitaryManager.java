@@ -1,9 +1,11 @@
 package training;
 
+import java.util.List;
+
 /**
  * Military manager interface
  * 
- * @version 0.1 15.07.2019
+ * @version 0.2 05.08.2019
  * @author Oleg
  */
 public interface MilitaryManager {
@@ -12,5 +14,5 @@ public interface MilitaryManager {
 	 * 
 	 * @return <code>Student[]</code>
 	 */
-	public Student[] getLiableStudents();
+	public List<Student> getLiableStudents();
 }

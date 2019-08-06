@@ -4,18 +4,6 @@
     <name>Lbxm-511</name>
     <students>
         <student>
-            <birthdate>01/03/1955</birthdate>
-            <firstName>Nelson</firstName>
-            <gender>MALE</gender>
-            <id>1</id>
-            <lastName>James</lastName>
-            <facultyName>BIOLOGY</facultyName>
-            <groupName>Lbxm-511</groupName>
-            <idNumber>PS789654321</idNumber>
-            <recordBookNumber>123789</recordBookNumber>
-            <teachingMethod>IN_PERSON</teachingMethod>
-        </student>
-        <student>
             <birthdate>16/07/2001</birthdate>
             <firstName>Howard</firstName>
             <gender>MALE</gender>
@@ -38,6 +26,18 @@
             <idNumber>NY159755456</idNumber>
             <recordBookNumber>852456</recordBookNumber>
             <teachingMethod>ON_LINE</teachingMethod>
+        </student>
+        <student>
+            <birthdate>01/03/1955</birthdate>
+            <firstName>Nelson</firstName>
+            <gender>MALE</gender>
+            <id>1</id>
+            <lastName>James</lastName>
+            <facultyName>BIOLOGY</facultyName>
+            <groupName>Lbxm-511</groupName>
+            <idNumber>PS789654321</idNumber>
+            <recordBookNumber>123789</recordBookNumber>
+            <teachingMethod>IN_PERSON</teachingMethod>
         </student>
     </students>
 </group>

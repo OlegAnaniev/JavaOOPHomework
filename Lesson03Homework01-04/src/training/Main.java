@@ -1,7 +1,7 @@
 package training;
 
-import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
 import training.Faculty.FacultyName;
 import training.Human.Gender;
@@ -44,8 +44,8 @@ public class Main {
 			e.printStackTrace();
 		}
 		
-		System.out.println("Group array test output:");
-		System.out.println(Arrays.toString(group.getStudents()));
+		System.out.println("Group list test output:");
+		System.out.println(group.getStudents());
 		System.out.println("Group test output:");
 		System.out.println(group);		
 		
@@ -130,8 +130,8 @@ public class Main {
 		System.out.println(group);
 		
 		System.out.println("Military liable:");
-		Student[] liable = group.getLiableStudents();
-		System.out.println(Arrays.toString(liable));
+		List<Student> liable = group.getLiableStudents();
+		System.out.println(liable);
 		
 		System.out.println("Filesystem storage:");
 		UniversityDAO storage = DAOFactory.getFactory(DAOFactory.Type.FILESYSTEM);
@@ -189,8 +189,6 @@ public class Main {
 		
 		loadedStudent = storage.getStudent(2);
 		System.out.println(loadedStudent);
-		
-		//TODO: JAXB date conversion!!!
 		
 		System.out.println("GSON storage:");
 		storage = DAOFactory.getFactory(DAOFactory.Type.GSON);
